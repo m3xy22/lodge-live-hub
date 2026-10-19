@@ -8,8 +8,8 @@
 
   <title>Streams | The Lodge SMP</title>
   <meta name="description" content="Watch The Lodge SMP community live on Twitch and Kick.">
-  
-  <link rel="icon" href="/assets/gallery/logo.png">
+
+  <link rel="icon" href="https://lodgesmp.net/assets/gallery/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -527,8 +527,11 @@
 
 <body>
   <header class="navbar">
-    <a class="brand" href="/" aria-label="The Lodge SMP homepage">
-      <img src="/assets/gallery/logo.png" alt="The Lodge SMP logo">
+    <a class="brand" href="https://lodgesmp.net/" aria-label="The Lodge SMP homepage">
+      <img
+        src="https://lodgesmp.net/assets/gallery/logo.png"
+        alt="The Lodge SMP logo"
+        onerror="this.style.display='none'">
       <span class="brand-copy">
         <strong>The Lodge</strong>
         <span>Live</span>
@@ -536,7 +539,7 @@
     </a>
 
     <nav class="nav-links" aria-label="Main navigation">
-      <a href="/streams/">Streams</a>
+      <a href="https://live.lodgesmp.net/streams/">Streams</a>
       <a href="https://discord.gg/4DtjrRRU2F" target="_blank" rel="noopener noreferrer">Community</a>
       <a class="discord-button" href="https://discord.gg/4DtjrRRU2F" target="_blank" rel="noopener noreferrer">
         Join Discord ↗
@@ -558,7 +561,6 @@
 
     <section class="stream-grid" aria-label="Live community streams">
 
-      <!-- TWITCH -->
       <article class="stream-card">
         <div class="stream-header">
           <div class="platform">
@@ -575,7 +577,7 @@
         <div class="player">
           <iframe
             id="twitch-player"
-            title="The Lodge Twitch livestream"
+            title="Mexy Twitch livestream"
             allow="autoplay; fullscreen"
             allowfullscreen
             loading="lazy">
@@ -584,16 +586,12 @@
 
         <div class="stream-footer">
           <p>Follow along on Twitch.</p>
-          <a class="open-button"
-             href="https://twitch.tv/mexy_22"
-             target="_blank"
-             rel="noopener noreferrer">
+          <a class="open-button" href="https://twitch.tv/mexy_22" target="_blank" rel="noopener noreferrer">
             Open Twitch ↗
           </a>
         </div>
       </article>
 
-      <!-- KICK -->
       <article class="stream-card">
         <div class="stream-header">
           <div class="platform">
@@ -610,7 +608,7 @@
         <div class="player">
           <iframe
             src="https://player.kick.com/m3xytv"
-            title="The Lodge Kick livestream"
+            title="Mexy Kick livestream"
             allow="autoplay; fullscreen; picture-in-picture"
             allowfullscreen
             loading="lazy">
@@ -619,10 +617,7 @@
 
         <div class="stream-footer">
           <p>Catch the action on Kick.</p>
-          <a class="open-button"
-             href="https://kick.com/m3xytv"
-             target="_blank"
-             rel="noopener noreferrer">
+          <a class="open-button" href="https://kick.com/m3xytv" target="_blank" rel="noopener noreferrer">
             Open Kick ↗
           </a>
         </div>
@@ -635,10 +630,7 @@
         <h2>Come hang out at The Lodge.</h2>
         <p>Join the Discord for server updates, community events, and Minecraft survival.</p>
       </div>
-      <a class="discord-button"
-         href="https://discord.gg/4DtjrRRU2F"
-         target="_blank"
-         rel="noopener noreferrer">
+      <a class="discord-button" href="https://discord.gg/4DtjrRRU2F" target="_blank" rel="noopener noreferrer">
         Join the Community ↗
       </a>
     </section>
@@ -649,31 +641,19 @@
   </footer>
 
   <script>
-    /*
-      TWITCH EMBED
-      Automatically uses the hostname of the page currently hosting
-      this HTML, as required by Twitch's embed player.
-    */
-    (function () {
-      const twitchPlayer = document.getElementById('twitch-player');
-      const currentHost = window.location.hostname;
+    // Twitch embed
+    const twitchPlayer = document.getElementById('twitch-player');
+    const twitchUrl = new URL('https://player.twitch.tv/');
 
-      const twitchUrl = new URL('https://player.twitch.tv/');
-      twitchUrl.searchParams.set('channel', 'mexy_22');
-      twitchUrl.searchParams.set('parent', currentHost);
-      twitchUrl.searchParams.set('autoplay', 'false');
-      twitchUrl.searchParams.set('muted', 'true');
+    twitchUrl.searchParams.set('channel', 'mexy_22');
+    twitchUrl.searchParams.set('parent', window.location.hostname);
+    twitchUrl.searchParams.set('autoplay', 'false');
+    twitchUrl.searchParams.set('muted', 'true');
 
-      twitchPlayer.src = twitchUrl.toString();
-    })();
+    twitchPlayer.src = twitchUrl.toString();
 
-    /*
-      CHANNEL STATUS
-      Checks periodically using public status endpoints.
-      A failed request displays "Status unavailable" rather than
-      incorrectly showing a channel as offline.
-    */
-    const CHANNELS = [
+    // Public status endpoints
+    const channels = [
       {
         id: 'twitch-status',
         endpoint: 'https://decapi.me/twitch/uptime/mexy_22'
@@ -684,7 +664,7 @@
       }
     ];
 
-    function updateStatusDisplay(element, state, message) {
+    function updateStatus(element, state, message) {
       element.classList.remove('is-live', 'is-unavailable');
 
       if (state === 'live') {
@@ -696,66 +676,87 @@
       element.querySelector('.status-text').textContent = message;
     }
 
+    function interpretStatus(text) {
+      const value = text.trim().toLowerCase();
+
+      if (!value) return 'unavailable';
+
+      // Recognize explicit offline responses first.
+      if (
+        /\bnot live\b/.test(value) ||
+        /\boffline\b/.test(value) ||
+        /\bnot streaming\b/.test(value) ||
+        /\bno stream\b/.test(value)
+      ) {
+        return 'offline';
+      }
+
+      // Do not mistake an API error for a live stream.
+      if (
+        /\berror\b/.test(value) ||
+        /\binvalid\b/.test(value) ||
+        /\bnot found\b/.test(value) ||
+        /\bunknown\b/.test(value) ||
+        /\bunauthorized\b/.test(value) ||
+        /\bforbidden\b/.test(value) ||
+        /\bfailed\b/.test(value) ||
+        /\bexception\b/.test(value)
+      ) {
+        return 'unavailable';
+      }
+
+      // DecAPI normally returns an uptime when the channel is live.
+      if (
+        /\d+\s*(?:second|minute|hour|day)s?\b/.test(value) ||
+        /\d{1,2}:\d{2}(?::\d{2})?/.test(value)
+      ) {
+        return 'live';
+      }
+
+      return 'unavailable';
+    }
+
     async function checkChannel(channel) {
       const element = document.getElementById(channel.id);
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 8000);
 
       try {
         const response = await fetch(channel.endpoint, {
-          cache: 'no-store'
+          cache: 'no-store',
+          signal: controller.signal
         });
 
         if (!response.ok) {
-          throw new Error('Status service returned an error');
+          throw new Error(`Status service returned HTTP ${response.status}`);
         }
 
-        const result = (await response.text()).trim();
-        const normalized = result.toLowerCase();
+        const result = await response.text();
+        const state = interpretStatus(result);
 
-        if (
-          normalized.includes('not live') ||
-          normalized.includes('offline') ||
-          normalized.includes('not streaming') ||
-          normalized.includes('no stream')
-        ) {
-          updateStatusDisplay(element, 'offline', 'Channel Offline');
-          return;
+        if (state === 'unavailable') {
+          throw new Error('Status response could not be understood');
         }
 
-        if (
-          normalized.includes('error') ||
-          normalized.includes('invalid') ||
-          normalized.includes('not found') ||
-          normalized.includes('unknown') ||
-          normalized.length === 0
-        ) {
-          throw new Error('Could not determine channel status');
-        }
-
-        // A valid uptime response means the channel is streaming.
-        updateStatusDisplay(element, 'live', 'Channel Live');
-
-      } catch (error) {
-        console.warn(
-          'Unable to check ' + channel.id + ':',
-          error
-        );
-
-        updateStatusDisplay(
+        updateStatus(
           element,
-          'unavailable',
-          'Status unavailable'
+          state,
+          state === 'live' ? 'Channel Live' : 'Channel Offline'
         );
+      } catch (error) {
+        console.warn(`Could not check ${channel.id}:`, error);
+        updateStatus(element, 'unavailable', 'Status unavailable');
+      } finally {
+        clearTimeout(timeout);
       }
     }
 
-    async function refreshChannelStatuses() {
-      await Promise.all(CHANNELS.map(checkChannel));
+    function refreshStatuses() {
+      return Promise.all(channels.map(checkChannel));
     }
 
-    refreshChannelStatuses();
-
-    // Refresh status every 60 seconds.
-    window.setInterval(refreshChannelStatuses, 60000);
+    refreshStatuses();
+    window.setInterval(refreshStatuses, 60000);
   </script>
 </body>
 </html>
