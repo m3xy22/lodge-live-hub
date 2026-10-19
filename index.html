@@ -6,31 +6,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#fcfbf7">
 
-  <title>Streams | The Lodge SMP</title>
-  <meta name="description" content="Watch The Lodge SMP community live on Twitch and Kick.">
+  <title>Live Hub | The Lodge</title>
+  <meta name="description" content="Watch mexy live on Twitch and Kick. Welcome to The Lodge.">
 
   <link rel="icon" href="https://lodgesmp.net/assets/gallery/logo.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg: #fcfbf7;
+      --background: #fcfbf7;
       --surface: #ffffff;
-      --surface-soft: #f4f3ed;
+      --surface-alt: #f4f3ed;
       --green: #5e8461;
-      --green-dark: #426747;
-      --text: #252923;
-      --muted: #858780;
-      --border: #e7e5dd;
-      --red: #ef3434;
+      --green-dark: #426547;
+      --text: #242821;
+      --muted: #777b71;
+      --border: #e5e5dc;
+      --red: #e34b4b;
+      --kick: #53fc18;
     }
 
     * {
       box-sizing: border-box;
-      margin: 0;
-      padding: 0;
     }
 
     html {
@@ -38,586 +34,539 @@
     }
 
     body {
-      background: var(--bg);
+      margin: 0;
+      background: var(--background);
       color: var(--text);
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: Arial, Helvetica, sans-serif;
       line-height: 1.6;
-      min-height: 100vh;
     }
 
     a {
       color: inherit;
-      text-decoration: none;
     }
 
-    button, a {
-      -webkit-tap-highlight-color: transparent;
+    .container {
+      width: min(1120px, calc(100% - 36px));
+      margin: 0 auto;
     }
 
-    .navbar {
+    header {
       position: sticky;
       top: 0;
-      z-index: 20;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 22px;
-      padding: 18px clamp(16px, 4vw, 48px);
+      z-index: 10;
       background: rgba(252, 251, 247, 0.96);
       border-bottom: 1px solid var(--border);
       backdrop-filter: blur(12px);
+    }
+
+    .nav {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
     }
 
     .brand {
       display: flex;
       align-items: center;
       gap: 12px;
-      min-width: 0;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
     }
 
     .brand img {
-      width: 54px;
-      height: 54px;
-      object-fit: cover;
-      border-radius: 13px;
-      border: 1px solid var(--border);
+      width: 44px;
+      height: 44px;
+      object-fit: contain;
+      border-radius: 10px;
     }
 
-    .brand-copy {
-      line-height: 1.35;
-      white-space: nowrap;
-    }
-
-    .brand-copy strong {
-      display: block;
-      font-size: 18px;
-      font-weight: 800;
-    }
-
-    .brand-copy span {
-      color: var(--green);
-      font-weight: 800;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: clamp(12px, 2vw, 26px);
-      font-weight: 700;
-    }
-
-    .nav-links > a:not(.discord-button) {
-      white-space: nowrap;
-      transition: color 0.2s ease;
-    }
-
-    .nav-links > a:not(.discord-button):hover {
-      color: var(--green);
-    }
-
-    .discord-button {
+    .nav-link {
       display: inline-flex;
-      justify-content: center;
       align-items: center;
-      gap: 7px;
-      min-height: 48px;
-      padding: 12px 20px;
+      justify-content: center;
+      padding: 10px 17px;
+      border-radius: 10px;
       background: var(--green);
-      color: white;
-      border-radius: 17px;
-      font-weight: 800;
-      text-align: center;
+      color: #fff;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 700;
       transition: background 0.2s, transform 0.2s;
     }
 
-    .discord-button:hover {
+    .nav-link:hover {
       background: var(--green-dark);
       transform: translateY(-1px);
     }
 
-    .page {
-      width: min(1180px, 100%);
-      margin: 0 auto;
-      padding: 38px 24px 64px;
-    }
-
-    .intro {
-      margin-bottom: 30px;
+    .hero {
+      padding: 68px 0 42px;
+      text-align: center;
     }
 
     .eyebrow {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      color: var(--green);
+      padding: 6px 12px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--green-dark);
       font-size: 12px;
       font-weight: 800;
-      letter-spacing: 1.5px;
+      letter-spacing: 1px;
       text-transform: uppercase;
-      margin-bottom: 12px;
     }
 
     .eyebrow-dot {
       width: 8px;
       height: 8px;
-      border-radius: 50%;
       background: var(--green);
+      border-radius: 50%;
     }
 
     h1 {
-      font-size: clamp(32px, 5vw, 48px);
-      line-height: 1.15;
-      letter-spacing: -1.6px;
-      font-weight: 800;
-      margin-bottom: 12px;
+      margin: 20px 0 12px;
+      font-size: clamp(36px, 7vw, 64px);
+      line-height: 1.08;
+      letter-spacing: -2.5px;
     }
 
-    .intro p {
+    .hero p {
+      max-width: 600px;
+      margin: 0 auto;
       color: var(--muted);
-      font-size: 15px;
-      max-width: 620px;
+      font-size: 16px;
     }
 
-    .stream-grid {
+    .channels {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 24px;
-      align-items: start;
+      padding: 12px 0 72px;
     }
 
-    .stream-card {
+    .channel-card {
       min-width: 0;
       overflow: hidden;
-      background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 27px;
-      box-shadow: 0 5px 24px rgba(43, 49, 38, 0.025);
-      transition: border-color 0.2s, transform 0.2s;
+      border-radius: 18px;
+      background: var(--surface);
+      box-shadow: 0 8px 28px rgba(35, 40, 30, 0.045);
     }
 
-    .stream-card:hover {
-      border-color: #d5ddcf;
-      transform: translateY(-2px);
-    }
-
-    .stream-header {
+    .channel-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      padding: 20px 22px;
+      padding: 20px;
     }
 
-    .platform {
+    .channel-identity {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
       min-width: 0;
     }
 
     .platform-icon {
-      width: 64px;
-      height: 64px;
-      flex-shrink: 0;
       display: grid;
+      width: 44px;
+      height: 44px;
+      flex: 0 0 44px;
       place-items: center;
-      color: #fff;
-      border-radius: 21px;
-      font-size: 24px;
-      font-weight: 800;
+      border-radius: 12px;
+      color: white;
+      font-weight: 900;
+      font-size: 19px;
     }
 
     .twitch-icon {
-      background: #7950c9;
+      background: #9146ff;
     }
 
     .kick-icon {
-      background: #21985a;
+      background: #18351a;
+      color: var(--kick);
     }
 
-    .platform h2 {
-      font-size: 23px;
-      line-height: 1.25;
-      font-weight: 800;
+    .channel-name {
+      min-width: 0;
     }
 
-    .channel-status {
-      display: inline-flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 9px;
-      flex-shrink: 0;
-      color: var(--muted);
-      font-size: 14px;
-      font-weight: 700;
+    .channel-name h2 {
+      margin: 0;
+      font-size: 18px;
       line-height: 1.3;
     }
 
-    .status-dot {
-      width: 11px;
-      height: 11px;
-      flex: 0 0 11px;
-      border-radius: 50%;
-      background: #a7aaa2;
-    }
-
-    .channel-status.is-live {
-      color: var(--red);
-    }
-
-    .channel-status.is-live .status-dot {
-      background: var(--red);
-      animation: liveBlink 1s ease-in-out infinite;
-    }
-
-    .channel-status.is-unavailable {
-      color: #a17b38;
-    }
-
-    .channel-status.is-unavailable .status-dot {
-      background: #c79a46;
-    }
-
-    @keyframes liveBlink {
-      0%, 100% {
-        opacity: 1;
-        box-shadow: 0 0 0 0 rgba(239, 52, 52, 0.38);
-      }
-      50% {
-        opacity: 0.35;
-        box-shadow: 0 0 0 5px rgba(239, 52, 52, 0);
-      }
-    }
-
-    .player {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16 / 9;
+    .channel-name p {
       overflow: hidden;
-      background: #171a17;
-    }
-
-    .player iframe {
-      display: block;
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      inset: 0;
-      border: 0;
-    }
-
-    .stream-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 14px;
-      padding: 20px 22px 22px;
-    }
-
-    .stream-footer p {
+      margin: 3px 0 0;
       color: var(--muted);
-      font-size: 14px;
+      font-size: 13px;
+      text-overflow: ellipsis;
     }
 
-    .open-button {
+    .status {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 7px;
       flex-shrink: 0;
-      padding: 12px 17px;
-      border-radius: 15px;
-      background: var(--surface-soft);
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: var(--surface-alt);
+      color: var(--muted);
+      font-size: 11px;
       font-weight: 800;
-      transition: background 0.2s, transform 0.2s;
+      white-space: nowrap;
     }
 
-    .open-button:hover {
-      background: #e9e9df;
-      transform: translateY(-1px);
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      flex: 0 0 8px;
+      border-radius: 50%;
+      background: #92958d;
     }
 
-    .community-banner {
+    .status.live {
+      background: #fff0f0;
+      color: #b32626;
+    }
+
+    .status.live .status-dot {
+      background: var(--red);
+      animation: blink 1.2s infinite;
+    }
+
+    .status.offline .status-dot {
+      background: #92958d;
+    }
+
+    .status.checking .status-dot {
+      background: #d6a33b;
+    }
+
+    .status-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: #eef8e9;
+      color: #286c22;
+      font-size: 11px;
+      font-weight: 800;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background 0.2s;
+    }
+
+    .status-link:hover {
+      background: #dff0d7;
+      text-decoration: underline;
+    }
+
+    .kick-status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #92958d;
+    }
+
+    .player-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background: #171717;
+    }
+
+    .player-wrap iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .channel-footer {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 24px;
-      margin-top: 30px;
-      padding: 26px 28px;
-      background: #f0f2e9;
-      border: 1px solid #e3e8db;
-      border-radius: 24px;
+      gap: 12px;
+      padding: 16px 20px;
     }
 
-    .community-banner h2 {
-      font-size: 19px;
+    .channel-footer p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .watch-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 9px 13px;
+      border-radius: 9px;
+      background: var(--surface-alt);
+      color: var(--text);
+      text-decoration: none;
+      font-size: 12px;
       font-weight: 800;
-      margin-bottom: 4px;
+      white-space: nowrap;
+      transition: background 0.2s;
     }
 
-    .community-banner p {
+    .watch-button:hover {
+      background: #e8e8de;
+    }
+
+    .community {
+      margin-bottom: 72px;
+      padding: 36px 24px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: var(--surface-alt);
+      text-align: center;
+    }
+
+    .community h2 {
+      margin: 0 0 8px;
+      font-size: clamp(24px, 4vw, 34px);
+      letter-spacing: -1px;
+    }
+
+    .community p {
+      max-width: 540px;
+      margin: 0 auto 22px;
       color: var(--muted);
       font-size: 14px;
     }
 
-    footer {
-      padding: 26px 20px;
-      border-top: 1px solid var(--border);
-      text-align: center;
-      color: var(--muted);
-      font-size: 13px;
+    .community-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 20px;
+      border-radius: 10px;
+      background: var(--green);
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 800;
+      transition: background 0.2s;
     }
 
-    footer strong {
-      color: var(--green);
+    .community-button:hover {
+      background: var(--green-dark);
+    }
+
+    footer {
+      padding: 24px 0;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      text-align: center;
+      font-size: 12px;
+    }
+
+    footer a {
+      color: var(--green-dark);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    @keyframes blink {
+      0%, 100% {
+        opacity: 1;
+        box-shadow: 0 0 0 0 rgba(227, 75, 75, 0.35);
+      }
+
+      50% {
+        opacity: 0.35;
+        box-shadow: 0 0 0 5px rgba(227, 75, 75, 0);
+      }
     }
 
     @media (max-width: 760px) {
-      .navbar {
-        gap: 10px;
-        padding: 14px 16px;
-      }
-
-      .brand {
-        gap: 9px;
-      }
-
-      .brand img {
-        width: 48px;
-        height: 48px;
-        border-radius: 12px;
-      }
-
-      .brand-copy strong {
-        font-size: 15px;
-      }
-
-      .brand-copy {
-        font-size: 13px;
-      }
-
-      .nav-links {
-        gap: 12px;
-        font-size: 13px;
-      }
-
-      .discord-button {
-        min-height: 44px;
-        padding: 9px 12px;
-        border-radius: 15px;
-        font-size: 12px;
-      }
-
-      .page {
-        padding: 28px 16px 44px;
-      }
-
-      .stream-grid {
+      .channels {
         grid-template-columns: 1fr;
-        gap: 20px;
+        gap: 18px;
       }
 
-      .stream-card {
-        border-radius: 25px;
+      .hero {
+        padding: 48px 0 32px;
       }
 
-      .stream-header {
-        padding: 18px 20px;
-      }
-
-      .platform-icon {
-        width: 60px;
-        height: 60px;
-        border-radius: 19px;
-      }
-
-      .platform h2 {
-        font-size: 22px;
-      }
-
-      .channel-status {
-        font-size: 13px;
-        gap: 7px;
-      }
-
-      .stream-footer {
-        padding: 18px 20px 21px;
-      }
-
-      .stream-footer p {
-        font-size: 13px;
-      }
-
-      .open-button {
-        padding: 12px 14px;
-        font-size: 13px;
-      }
-
-      .community-banner {
-        align-items: flex-start;
-        flex-direction: column;
-        padding: 23px;
+      h1 {
+        letter-spacing: -1.5px;
       }
     }
 
-    @media (max-width: 390px) {
-      .navbar {
-        flex-wrap: wrap;
+    @media (max-width: 420px) {
+      .container {
+        width: calc(100% - 24px);
       }
 
-      .nav-links {
-        width: 100%;
-        justify-content: space-between;
-        padding-top: 5px;
+      .channel-header {
+        padding: 14px;
       }
 
-      .stream-header {
-        gap: 8px;
-        padding: 16px;
+      .channel-name h2 {
+        font-size: 16px;
       }
 
-      .platform {
-        gap: 10px;
-      }
-
-      .platform-icon {
-        width: 48px;
-        height: 48px;
-        font-size: 20px;
-        border-radius: 15px;
-      }
-
-      .platform h2 {
-        font-size: 19px;
-      }
-
-      .channel-status {
-        font-size: 11px;
-        gap: 6px;
-      }
-
-      .status-dot {
-        width: 9px;
-        height: 9px;
-        flex-basis: 9px;
-      }
-
-      .stream-footer {
-        gap: 8px;
-        padding: 15px;
-      }
-
-      .open-button {
-        padding: 10px;
+      .channel-name p {
         font-size: 12px;
       }
-    }
 
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        scroll-behavior: auto !important;
-        transition-duration: 0.01ms !important;
+      .status,
+      .status-link {
+        padding: 6px 8px;
+        font-size: 10px;
+      }
+
+      .channel-footer {
+        padding: 13px 14px;
       }
     }
   </style>
 </head>
 
 <body>
-  <header class="navbar">
-    <a class="brand" href="https://lodgesmp.net/" aria-label="The Lodge SMP homepage">
-      <img
-        src="https://lodgesmp.net/assets/gallery/logo.png"
-        alt="The Lodge SMP logo"
-        onerror="this.style.display='none'">
-      <span class="brand-copy">
-        <strong>The Lodge</strong>
-        <span>Live</span>
-      </span>
-    </a>
+  <header>
+    <div class="container nav">
+      <a class="brand" href="https://lodgesmp.net/" aria-label="The Lodge SMP homepage">
+        <img
+          src="https://lodgesmp.net/assets/gallery/logo.png"
+          alt="The Lodge logo"
+        >
+        <span>The Lodge <span style="color: var(--green);">Live Hub</span></span>
+      </a>
 
-    <nav class="nav-links" aria-label="Main navigation">
-      <a href="https://live.lodgesmp.net/streams/">Streams</a>
-      <a href="https://discord.gg/4DtjrRRU2F" target="_blank" rel="noopener noreferrer">Community</a>
-      <a class="discord-button" href="https://discord.gg/4DtjrRRU2F" target="_blank" rel="noopener noreferrer">
+      <a
+        class="nav-link"
+        href="https://discord.gg/4DtjrRRU2F"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         Join Discord ↗
       </a>
-    </nav>
+    </div>
   </header>
 
-  <main class="page">
-    <section class="intro">
-      <div class="eyebrow">
+  <main>
+    <section class="container hero">
+      <span class="eyebrow">
         <span class="eyebrow-dot"></span>
-        THE LODGE COMMUNITY
-      </div>
-      <h1>Catch the streams.</h1>
+        The Lodge Community
+      </span>
+
+      <h1>Catch the stream.</h1>
+
       <p>
-        Hang out with The Lodge community, watch the action, and catch the latest streams on Twitch and Kick.
+        Watch mexy live on Twitch or Kick. Grab a seat, hang out,
+        and join the community.
       </p>
     </section>
 
-    <section class="stream-grid" aria-label="Live community streams">
+    <section class="container channels" aria-label="Live channels">
 
-      <article class="stream-card">
-        <div class="stream-header">
-          <div class="platform">
-            <div class="platform-icon twitch-icon" aria-hidden="true">T</div>
-            <h2>Twitch</h2>
+      <!-- TWITCH -->
+      <article class="channel-card">
+        <div class="channel-header">
+          <div class="channel-identity">
+            <div class="platform-icon twitch-icon">T</div>
+
+            <div class="channel-name">
+              <h2>Twitch</h2>
+              <p>@mexy_22</p>
+            </div>
           </div>
 
-          <div class="channel-status" id="twitch-status" role="status" aria-live="polite">
+          <div id="twitch-status" class="status checking">
             <span class="status-dot"></span>
-            <span class="status-text">Checking channel...</span>
+            <span id="twitch-status-text">Checking...</span>
           </div>
         </div>
 
-        <div class="player">
+        <div class="player-wrap">
           <iframe
-            id="twitch-player"
-            title="Mexy Twitch livestream"
-            allow="autoplay; fullscreen"
+            src="https://player.twitch.tv/?channel=mexy_22&parent=live.lodgesmp.net&parent=lodgesmp.net&muted=true"
+            title="mexy Twitch livestream"
             allowfullscreen
-            loading="lazy">
-          </iframe>
+            scrolling="no"
+            allow="autoplay; fullscreen"
+          ></iframe>
         </div>
 
-        <div class="stream-footer">
-          <p>Follow along on Twitch.</p>
-          <a class="open-button" href="https://twitch.tv/mexy_22" target="_blank" rel="noopener noreferrer">
+        <div class="channel-footer">
+          <p>Watch live on Twitch</p>
+
+          <a
+            class="watch-button"
+            href="https://twitch.tv/mexy_22"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Open Twitch ↗
           </a>
         </div>
       </article>
 
-      <article class="stream-card">
-        <div class="stream-header">
-          <div class="platform">
-            <div class="platform-icon kick-icon" aria-hidden="true">K</div>
-            <h2>Kick</h2>
+      <!-- KICK -->
+      <article class="channel-card">
+        <div class="channel-header">
+          <div class="channel-identity">
+            <div class="platform-icon kick-icon">K</div>
+
+            <div class="channel-name">
+              <h2>Kick</h2>
+              <p>@m3xytv</p>
+            </div>
           </div>
 
-          <div class="channel-status" id="kick-status" role="status" aria-live="polite">
-            <span class="status-dot"></span>
-            <span class="status-text">Checking channel...</span>
-          </div>
+          <a
+            class="status-link"
+            href="https://kick.com/m3xytv"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Check mexy on Kick"
+          >
+            <span class="kick-status-dot"></span>
+            Check Channel ↗
+          </a>
         </div>
 
-        <div class="player">
+        <div class="player-wrap">
           <iframe
             src="https://player.kick.com/m3xytv"
-            title="Mexy Kick livestream"
-            allow="autoplay; fullscreen; picture-in-picture"
+            title="mexy Kick livestream"
             allowfullscreen
-            loading="lazy">
-          </iframe>
+            scrolling="no"
+            allow="autoplay; fullscreen; picture-in-picture"
+          ></iframe>
         </div>
 
-        <div class="stream-footer">
-          <p>Catch the action on Kick.</p>
-          <a class="open-button" href="https://kick.com/m3xytv" target="_blank" rel="noopener noreferrer">
+        <div class="channel-footer">
+          <p>Check the channel for live status</p>
+
+          <a
+            class="watch-button"
+            href="https://kick.com/m3xytv"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Open Kick ↗
           </a>
         </div>
@@ -625,138 +574,87 @@
 
     </section>
 
-    <section class="community-banner">
-      <div>
-        <h2>Come hang out at The Lodge.</h2>
-        <p>Join the Discord for server updates, community events, and Minecraft survival.</p>
+    <section class="container">
+      <div class="community">
+        <h2>Make yourself at home.</h2>
+
+        <p>
+          The Lodge is more than a stream. Join the Discord to hang out,
+          meet the community, and get involved.
+        </p>
+
+        <a
+          class="community-button"
+          href="https://discord.gg/4DtjrRRU2F"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Join The Lodge Discord ↗
+        </a>
       </div>
-      <a class="discord-button" href="https://discord.gg/4DtjrRRU2F" target="_blank" rel="noopener noreferrer">
-        Join the Community ↗
-      </a>
     </section>
   </main>
 
   <footer>
-    <p><strong>The Lodge SMP</strong> · A cozy place to build, explore, and hang out.</p>
+    <div class="container">
+      <p>
+        © <span id="year"></span> The Lodge ·
+        <a href="https://lodgesmp.net/">Visit the SMP website</a>
+      </p>
+    </div>
   </footer>
 
   <script>
-    // Twitch embed
-    const twitchPlayer = document.getElementById('twitch-player');
-    const twitchUrl = new URL('https://player.twitch.tv/');
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
 
-    twitchUrl.searchParams.set('channel', 'mexy_22');
-    twitchUrl.searchParams.set('parent', window.location.hostname);
-    twitchUrl.searchParams.set('autoplay', 'false');
-    twitchUrl.searchParams.set('muted', 'true');
+    const twitchStatus = document.getElementById("twitch-status");
+    const twitchStatusText = document.getElementById("twitch-status-text");
 
-    twitchPlayer.src = twitchUrl.toString();
-
-    // Public status endpoints
-    const channels = [
-      {
-        id: 'twitch-status',
-        endpoint: 'https://decapi.me/twitch/uptime/mexy_22'
-      },
-      {
-        id: 'kick-status',
-        endpoint: 'https://decapi.me/kick/uptime/m3xytv'
-      }
-    ];
-
-    function updateStatus(element, state, message) {
-      element.classList.remove('is-live', 'is-unavailable');
-
-      if (state === 'live') {
-        element.classList.add('is-live');
-      } else if (state === 'unavailable') {
-        element.classList.add('is-unavailable');
-      }
-
-      element.querySelector('.status-text').textContent = message;
-    }
-
-    function interpretStatus(text) {
-      const value = text.trim().toLowerCase();
-
-      if (!value) return 'unavailable';
-
-      // Recognize explicit offline responses first.
-      if (
-        /\bnot live\b/.test(value) ||
-        /\boffline\b/.test(value) ||
-        /\bnot streaming\b/.test(value) ||
-        /\bno stream\b/.test(value)
-      ) {
-        return 'offline';
-      }
-
-      // Do not mistake an API error for a live stream.
-      if (
-        /\berror\b/.test(value) ||
-        /\binvalid\b/.test(value) ||
-        /\bnot found\b/.test(value) ||
-        /\bunknown\b/.test(value) ||
-        /\bunauthorized\b/.test(value) ||
-        /\bforbidden\b/.test(value) ||
-        /\bfailed\b/.test(value) ||
-        /\bexception\b/.test(value)
-      ) {
-        return 'unavailable';
-      }
-
-      // DecAPI normally returns an uptime when the channel is live.
-      if (
-        /\d+\s*(?:second|minute|hour|day)s?\b/.test(value) ||
-        /\d{1,2}:\d{2}(?::\d{2})?/.test(value)
-      ) {
-        return 'live';
-      }
-
-      return 'unavailable';
-    }
-
-    async function checkChannel(channel) {
-      const element = document.getElementById(channel.id);
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 8000);
-
+    async function checkTwitchStatus() {
       try {
-        const response = await fetch(channel.endpoint, {
-          cache: 'no-store',
-          signal: controller.signal
-        });
+        const response = await fetch(
+          "https://decapi.me/twitch/uptime/mexy_22",
+          { cache: "no-store" }
+        );
 
         if (!response.ok) {
-          throw new Error(`Status service returned HTTP ${response.status}`);
+          throw new Error("Twitch status request failed");
         }
 
-        const result = await response.text();
-        const state = interpretStatus(result);
+        const result = (await response.text()).trim();
+        const normalized = result.toLowerCase();
 
-        if (state === 'unavailable') {
-          throw new Error('Status response could not be understood');
+        twitchStatus.classList.remove("live", "offline", "checking");
+
+        if (
+          normalized.includes("offline") ||
+          normalized.includes("not live")
+        ) {
+          twitchStatus.classList.add("offline");
+          twitchStatusText.textContent = "Channel Offline";
+        } else if (
+          normalized.includes("error") ||
+          normalized.includes("invalid") ||
+          normalized.includes("unable") ||
+          normalized.includes("not found") ||
+          normalized.length === 0
+        ) {
+          twitchStatus.classList.add("offline");
+          twitchStatusText.textContent = "Check Channel";
+        } else {
+          twitchStatus.classList.add("live");
+          twitchStatusText.textContent = "LIVE NOW";
         }
-
-        updateStatus(
-          element,
-          state,
-          state === 'live' ? 'Channel Live' : 'Channel Offline'
-        );
       } catch (error) {
-        console.warn(`Could not check ${channel.id}:`, error);
-        updateStatus(element, 'unavailable', 'Status unavailable');
-      } finally {
-        clearTimeout(timeout);
+        twitchStatus.classList.remove("live", "checking");
+        twitchStatus.classList.add("offline");
+        twitchStatusText.textContent = "Check Channel";
       }
     }
 
-    function refreshStatuses() {
-      return Promise.all(channels.map(checkChannel));
-    }
-
-    refreshStatuses();
-    window.setInterval(refreshStatuses, 60000);
+    checkTwitchStatus();
+    setInterval(checkTwitchStatus, 60000);
   </script>
 </body>
 </html>
