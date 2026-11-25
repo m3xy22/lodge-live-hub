@@ -1,28 +1,61 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#fcfbf7">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Live Hub | The Lodge</title>
-  <meta name="description" content="Watch mexy live on Twitch and Kick. Welcome to The Lodge.">
+  <meta name="theme-color" content="#111510">
 
-  <link rel="icon" href="https://lodgesmp.net/assets/gallery/logo.png">
+  <title>The Lodge SMP — Live Hub</title>
+
+  <meta
+    name="description"
+    content="Watch The Lodge SMP live with mexytv_. Catch streams, clips, and community updates."
+  >
 
   <style>
+    /* =========================================
+       THE LODGE SMP — DESIGN SYSTEM
+    ========================================= */
+
     :root {
-      --background: #fcfbf7;
-      --surface: #ffffff;
-      --surface-alt: #f4f3ed;
-      --green: #5e8461;
-      --green-dark: #426547;
-      --text: #242821;
-      --muted: #777b71;
-      --border: #e5e5dc;
-      --red: #e34b4b;
-      --kick: #53fc18;
+      color-scheme: dark;
+
+      --bg: #111510;
+      --surface: #191e18;
+      --surface-2: #222920;
+
+      --text: #f1f1e9;
+      --muted: #9ba397;
+
+      --accent: #a3bd87;
+      --accent-dark: #34432c;
+
+      --border: rgba(190, 204, 175, .15);
+      --grid: rgba(190, 204, 175, .035);
+
+      --shadow: rgba(0, 0, 0, .35);
+    }
+
+    [data-theme="light"] {
+      color-scheme: light;
+
+      --bg: #e9e9df;
+      --surface: #f5f5ed;
+      --surface-2: #e3e5d9;
+
+      --text: #20251d;
+      --muted: #74796c;
+
+      --accent: #526c3c;
+      --accent-dark: #d6dfc9;
+
+      --border: rgba(50, 65, 40, .15);
+      --grid: rgba(50, 65, 40, .045);
+
+      --shadow: rgba(40, 50, 30, .1);
     }
 
     * {
@@ -31,630 +64,1236 @@
 
     html {
       scroll-behavior: smooth;
+      scroll-padding-top: 30px;
     }
 
     body {
       margin: 0;
-      background: var(--background);
+      background: var(--bg);
       color: var(--text);
-      font-family: Arial, Helvetica, sans-serif;
-      line-height: 1.6;
+
+      font-family:
+        Inter,
+        "Segoe UI",
+        system-ui,
+        sans-serif;
+
+      transition:
+        background .3s ease,
+        color .3s ease;
     }
 
     a {
       color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    img {
+      max-width: 100%;
     }
 
     .container {
-      width: min(1120px, calc(100% - 36px));
-      margin: 0 auto;
+      width: min(1160px, calc(100% - 48px));
+      margin-inline: auto;
     }
 
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      background: rgba(252, 251, 247, 0.96);
-      border-bottom: 1px solid var(--border);
-      backdrop-filter: blur(12px);
+    /* =========================================
+       BACKGROUND
+    ========================================= */
+
+    .site-background {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      overflow: hidden;
+
+      background:
+        radial-gradient(
+          ellipse at 50% -20%,
+          rgba(129, 155, 98, .12),
+          transparent 65%
+        ),
+        var(--bg);
     }
 
-    .nav {
-      min-height: 76px;
+    .site-background::after {
+      content: "";
+
+      position: absolute;
+      inset: 0;
+
+      background-image:
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+
+      background-size: 64px 64px;
+
+      mask-image:
+        linear-gradient(
+          to bottom,
+          black,
+          transparent 85%
+        );
+    }
+
+    /* =========================================
+       NAVIGATION
+    ========================================= */
+
+    .navbar {
+      height: 82px;
+
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 20px;
+
+      border-bottom: 1px solid var(--border);
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
-      text-decoration: none;
-      font-size: 18px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
+      gap: 13px;
     }
 
-    .brand img {
-      width: 44px;
-      height: 44px;
-      object-fit: contain;
-      border-radius: 10px;
-    }
+    .brand-mark {
+      width: 42px;
+      height: 42px;
 
-    .nav-link {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 10px 17px;
-      border-radius: 10px;
-      background: var(--green);
-      color: #fff;
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 700;
-      transition: background 0.2s, transform 0.2s;
-    }
+      display: grid;
+      place-items: center;
 
-    .nav-link:hover {
-      background: var(--green-dark);
-      transform: translateY(-1px);
-    }
-
-    .hero {
-      padding: 68px 0 42px;
-      text-align: center;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 12px;
+      background: var(--accent-dark);
       border: 1px solid var(--border);
-      border-radius: 999px;
-      background: var(--surface);
-      color: var(--green-dark);
-      font-size: 12px;
+      border-radius: 12px;
+
+      color: var(--accent);
+      font-size: 24px;
+    }
+
+    .brand-name {
+      font-size: 15px;
       font-weight: 800;
-      letter-spacing: 1px;
+      letter-spacing: -.4px;
+    }
+
+    .brand-subtitle {
+      display: block;
+      margin-top: 4px;
+
+      color: var(--muted);
+
+      font-size: 10px;
+      letter-spacing: 1.6px;
       text-transform: uppercase;
     }
 
-    .eyebrow-dot {
-      width: 8px;
-      height: 8px;
-      background: var(--green);
-      border-radius: 50%;
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 30px;
     }
 
-    h1 {
-      margin: 20px 0 12px;
-      font-size: clamp(36px, 7vw, 64px);
-      line-height: 1.08;
-      letter-spacing: -2.5px;
+    .nav-link {
+      color: var(--muted);
+      font-size: 13px;
+
+      transition: color .2s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--text);
+    }
+
+    /* =========================================
+       DARK / LIGHT MODE SWITCH
+    ========================================= */
+
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      padding: 8px 12px;
+
+      border: 1px solid var(--border);
+      border-radius: 40px;
+
+      background: var(--surface);
+
+      cursor: pointer;
+
+      transition: background .25s ease;
+    }
+
+    .theme-toggle:hover {
+      background: var(--surface-2);
+    }
+
+    .pixel-emoji {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      font-family:
+        "Apple Color Emoji",
+        "Segoe UI Emoji",
+        sans-serif;
+
+      font-size: 19px;
+      line-height: 1;
+
+      /* Make both emoji white */
+      filter: grayscale(1) brightness(0) invert(1);
+
+      image-rendering: pixelated;
+
+      transition: opacity .2s ease;
+    }
+
+    [data-theme="dark"] .moon-icon,
+    [data-theme="light"] .sun-icon {
+      opacity: 1;
+    }
+
+    [data-theme="dark"] .sun-icon,
+    [data-theme="light"] .moon-icon {
+      opacity: .45;
+    }
+
+    .toggle-track {
+      position: relative;
+
+      width: 38px;
+      height: 21px;
+
+      border-radius: 20px;
+      border: 1px solid var(--border);
+
+      background: var(--surface-2);
+    }
+
+    .toggle-knob {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+
+      width: 15px;
+      height: 15px;
+
+      border-radius: 50%;
+      background: var(--accent);
+
+      transition: transform .25s ease;
+    }
+
+    [data-theme="light"] .toggle-knob {
+      transform: translateX(17px);
+    }
+
+    /* =========================================
+       HERO
+    ========================================= */
+
+    .hero {
+      position: relative;
+
+      padding: 100px 0 85px;
+
+      text-align: center;
+    }
+
+    .hero-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+
+      padding: 8px 13px;
+
+      border: 1px solid var(--border);
+      border-radius: 40px;
+
+      background: var(--surface);
+
+      color: var(--accent);
+
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .hero-label::before {
+      content: "";
+
+      width: 6px;
+      height: 6px;
+
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .hero h1 {
+      margin: 27px 0 20px;
+
+      font-size: clamp(48px, 8vw, 92px);
+      font-weight: 800;
+
+      letter-spacing: -5px;
+      line-height: .98;
+    }
+
+    .hero h1 span {
+      color: var(--accent);
     }
 
     .hero p {
-      max-width: 600px;
+      max-width: 470px;
+
       margin: 0 auto;
+
       color: var(--muted);
-      font-size: 16px;
+
+      font-size: 15px;
+      line-height: 1.8;
     }
 
-    .channels {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 24px;
-      padding: 12px 0 72px;
+    .hero-links {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+
+      margin-top: 30px;
     }
 
-    .channel-card {
-      min-width: 0;
-      overflow: hidden;
+    /* =========================================
+       BUTTONS
+    ========================================= */
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+
+      padding: 13px 20px;
+
+      border-radius: 8px;
+
+      font-size: 12px;
+      font-weight: 750;
+
+      transition:
+        transform .2s ease,
+        background .2s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+    }
+
+    .button-primary {
+      background: var(--accent);
+      color: #172014;
+    }
+
+    .button-secondary {
       border: 1px solid var(--border);
-      border-radius: 18px;
       background: var(--surface);
-      box-shadow: 0 8px 28px rgba(35, 40, 30, 0.045);
+      color: var(--text);
     }
 
-    .channel-header {
+    /* =========================================
+       SECTION HEADINGS
+    ========================================= */
+
+    .section {
+      padding-bottom: 95px;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+
+      margin-bottom: 25px;
+    }
+
+    .section-kicker {
+      display: block;
+
+      margin-bottom: 9px;
+
+      color: var(--accent);
+
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+
+      font-size: clamp(25px, 4vw, 34px);
+      letter-spacing: -1.3px;
+    }
+
+    .section-heading p {
+      margin: 9px 0 0;
+
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* =========================================
+       TWITCH STREAM
+    ========================================= */
+
+    .stream-card {
+      overflow: hidden;
+
+      border: 1px solid var(--border);
+      border-radius: 15px;
+
+      background: var(--surface);
+
+      box-shadow: 0 20px 60px var(--shadow);
+    }
+
+    .stream-header {
+      min-height: 86px;
+
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      padding: 20px;
+      gap: 20px;
+
+      padding: 20px 25px;
     }
 
-    .channel-identity {
+    .stream-profile {
       display: flex;
       align-items: center;
-      gap: 12px;
-      min-width: 0;
+      gap: 14px;
     }
 
-    .platform-icon {
+    .avatar {
+      width: 46px;
+      height: 46px;
+
       display: grid;
-      width: 44px;
-      height: 44px;
-      flex: 0 0 44px;
       place-items: center;
-      border-radius: 12px;
-      color: white;
-      font-weight: 900;
-      font-size: 19px;
+
+      border: 1px solid var(--border);
+      border-radius: 11px;
+
+      background: var(--surface-2);
+      color: var(--accent);
+
+      font-size: 20px;
+      font-weight: 800;
     }
 
-    .twitch-icon {
-      background: #9146ff;
-    }
-
-    .kick-icon {
-      background: #18351a;
-      color: var(--kick);
-    }
-
-    .channel-name {
-      min-width: 0;
-    }
-
-    .channel-name h2 {
+    .stream-profile h3 {
       margin: 0;
-      font-size: 18px;
-      line-height: 1.3;
+      font-size: 14px;
     }
 
-    .channel-name p {
-      overflow: hidden;
-      margin: 3px 0 0;
+    .stream-profile p {
+      margin: 5px 0 0;
+
       color: var(--muted);
-      font-size: 13px;
-      text-overflow: ellipsis;
+      font-size: 11px;
     }
 
     .status {
-      display: inline-flex;
+      display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 7px;
-      flex-shrink: 0;
-      padding: 7px 10px;
-      border-radius: 999px;
-      background: var(--surface-alt);
+      gap: 9px;
+
       color: var(--muted);
       font-size: 11px;
-      font-weight: 800;
-      white-space: nowrap;
     }
 
     .status-dot {
-      width: 8px;
-      height: 8px;
-      flex: 0 0 8px;
+      width: 7px;
+      height: 7px;
+
       border-radius: 50%;
-      background: #92958d;
+      background: #8b9387;
     }
 
     .status.live {
-      background: #fff0f0;
-      color: #b32626;
+      color: #e66b65;
     }
 
     .status.live .status-dot {
-      background: var(--red);
-      animation: blink 1.2s infinite;
+      background: #e66b65;
+      box-shadow: 0 0 12px #e66b6570;
     }
 
-    .status.offline .status-dot {
-      background: #92958d;
-    }
-
-    .status.checking .status-dot {
-      background: #d6a33b;
-    }
-
-    .status-link {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 7px;
-      padding: 7px 10px;
-      border-radius: 999px;
-      background: #eef8e9;
-      color: #286c22;
-      font-size: 11px;
-      font-weight: 800;
-      text-decoration: none;
-      white-space: nowrap;
-      transition: background 0.2s;
-    }
-
-    .status-link:hover {
-      background: #dff0d7;
-      text-decoration: underline;
-    }
-
-    .kick-status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #92958d;
-    }
-
-    .player-wrap {
+    .player {
       position: relative;
+
       width: 100%;
       aspect-ratio: 16 / 9;
-      overflow: hidden;
-      background: #171717;
+
+      background: #080a08;
     }
 
-    .player-wrap iframe {
-      position: absolute;
-      inset: 0;
+    .player iframe {
+      display: block;
+
       width: 100%;
       height: 100%;
+
       border: 0;
     }
 
-    .channel-footer {
+    .stream-footer {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      padding: 16px 20px;
-    }
+      gap: 20px;
 
-    .channel-footer p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 12px;
-    }
+      padding: 20px 25px;
 
-    .watch-button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 9px 13px;
-      border-radius: 9px;
-      background: var(--surface-alt);
-      color: var(--text);
-      text-decoration: none;
-      font-size: 12px;
-      font-weight: 800;
-      white-space: nowrap;
-      transition: background 0.2s;
-    }
-
-    .watch-button:hover {
-      background: #e8e8de;
-    }
-
-    .community {
-      margin-bottom: 72px;
-      padding: 36px 24px;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      background: var(--surface-alt);
-      text-align: center;
-    }
-
-    .community h2 {
-      margin: 0 0 8px;
-      font-size: clamp(24px, 4vw, 34px);
-      letter-spacing: -1px;
-    }
-
-    .community p {
-      max-width: 540px;
-      margin: 0 auto 22px;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .community-button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 12px 20px;
-      border-radius: 10px;
-      background: var(--green);
-      color: white;
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 800;
-      transition: background 0.2s;
-    }
-
-    .community-button:hover {
-      background: var(--green-dark);
-    }
-
-    footer {
-      padding: 24px 0;
       border-top: 1px solid var(--border);
+    }
+
+    .stream-footer p {
+      margin: 0;
+
       color: var(--muted);
-      text-align: center;
       font-size: 12px;
     }
 
-    footer a {
-      color: var(--green-dark);
-      text-decoration: none;
-      font-weight: 700;
+    /* =========================================
+       FEATURED TIKTOK
+    ========================================= */
+
+    .tiktok-section {
+      padding-bottom: 100px;
     }
 
-    @keyframes blink {
-      0%, 100% {
-        opacity: 1;
-        box-shadow: 0 0 0 0 rgba(227, 75, 75, 0.35);
-      }
-
-      50% {
-        opacity: 0.35;
-        box-shadow: 0 0 0 5px rgba(227, 75, 75, 0);
-      }
+    .section-description {
+      color: var(--muted);
+      font-size: 12px;
+      font-style: italic;
     }
 
-    @media (max-width: 760px) {
-      .channels {
-        grid-template-columns: 1fr;
-        gap: 18px;
+    .tiktok-feature {
+      display: grid;
+
+      grid-template-columns:
+        minmax(0, 1.7fr)
+        minmax(220px, .8fr);
+
+      align-items: center;
+      gap: 40px;
+    }
+
+    .tiktok-feature-image {
+      position: relative;
+
+      display: block;
+      overflow: hidden;
+
+      aspect-ratio: 16 / 9;
+
+      border: 1px solid var(--border);
+      border-radius: 14px;
+
+      background: var(--surface-2);
+    }
+
+    .tiktok-feature-image img {
+      display: block;
+
+      width: 100%;
+      height: 100%;
+
+      object-fit: cover;
+
+      filter: grayscale(100%);
+
+      transform: scale(1);
+
+      transition:
+        filter .45s ease,
+        transform .6s cubic-bezier(.2, .7, .2, 1);
+    }
+
+    .tiktok-feature-image:hover img {
+      filter: grayscale(0%);
+      transform: scale(1.035);
+    }
+
+    .tiktok-image-overlay {
+      position: absolute;
+      inset: 0;
+
+      display: grid;
+      place-items: center;
+
+      background: rgba(0, 0, 0, .08);
+
+      opacity: 0;
+
+      transition: opacity .3s ease;
+    }
+
+    .tiktok-feature-image:hover .tiktok-image-overlay {
+      opacity: 1;
+    }
+
+    .tiktok-play-icon {
+      width: 58px;
+      height: 58px;
+
+      display: grid;
+      place-items: center;
+
+      padding-left: 4px;
+
+      border-radius: 50%;
+
+      background: rgba(20, 22, 20, .8);
+      color: white;
+
+      font-size: 20px;
+
+      transform: scale(.85);
+
+      transition: transform .3s ease;
+    }
+
+    .tiktok-feature-image:hover .tiktok-play-icon {
+      transform: scale(1);
+    }
+
+    .tiktok-feature-info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .tiktok-feature-info h3 {
+      margin: 0 0 12px;
+
+      font-size: 23px;
+      letter-spacing: -.8px;
+    }
+
+    .tiktok-feature-info p {
+      max-width: 300px;
+
+      margin: 0 0 25px;
+
+      color: var(--muted);
+
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    /* =========================================
+       FOOTER
+    ========================================= */
+
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 30px 0;
+    }
+
+    .footer-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 22px;
+    }
+
+    .footer a:hover {
+      color: var(--text);
+    }
+
+    /* =========================================
+       MOBILE
+    ========================================= */
+
+    @media (max-width: 700px) {
+
+      .container {
+        width: calc(100% - 30px);
+      }
+
+      .navbar {
+        height: 72px;
+      }
+
+      .nav-right {
+        gap: 12px;
+      }
+
+      .nav-link {
+        display: none;
+      }
+
+      .brand-name {
+        font-size: 13px;
       }
 
       .hero {
-        padding: 48px 0 32px;
+        padding: 75px 0 65px;
       }
 
-      h1 {
-        letter-spacing: -1.5px;
+      .hero h1 {
+        letter-spacing: -3px;
+      }
+
+      .hero p {
+        font-size: 13px;
+      }
+
+      .section {
+        padding-bottom: 70px;
+      }
+
+      .stream-header {
+        padding: 16px;
+      }
+
+      .stream-footer {
+        padding: 16px;
+      }
+
+      .stream-footer p {
+        max-width: 150px;
+        line-height: 1.6;
+      }
+
+      .stream-footer .button {
+        padding: 12px;
+      }
+
+      .tiktok-feature {
+        grid-template-columns: 1fr;
+        gap: 25px;
+      }
+
+      .tiktok-feature-info h3 {
+        font-size: 21px;
+      }
+
+      /* Touch devices have no hover */
+      .tiktok-feature-image img {
+        filter: grayscale(0%);
+      }
+
+      .tiktok-image-overlay {
+        opacity: 1;
+      }
+
+      .tiktok-play-icon {
+        transform: scale(1);
+      }
+
+      .footer-content {
+        align-items: flex-start;
+        flex-direction: column;
       }
     }
 
-    @media (max-width: 420px) {
-      .container {
-        width: calc(100% - 24px);
-      }
-
-      .channel-header {
-        padding: 14px;
-      }
-
-      .channel-name h2 {
-        font-size: 16px;
-      }
-
-      .channel-name p {
-        font-size: 12px;
-      }
-
-      .status,
-      .status-link {
-        padding: 6px 8px;
-        font-size: 10px;
-      }
-
-      .channel-footer {
-        padding: 13px 14px;
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
       }
     }
+
   </style>
 </head>
 
 <body>
-  <header>
-    <div class="container nav">
-      <a class="brand" href="https://lodgesmp.net/" aria-label="The Lodge SMP homepage">
-        <img
-          src="https://lodgesmp.net/assets/gallery/logo.png"
-          alt="The Lodge logo"
+
+  <div class="site-background"></div>
+
+  <div class="container">
+
+    <!-- =====================================
+         NAVIGATION
+    ====================================== -->
+
+    <header class="navbar">
+
+      <a class="brand" href="https://lodgesmp.net">
+
+        <div class="brand-mark">⌂</div>
+
+        <div>
+          <div class="brand-name">THE LODGE SMP</div>
+          <span class="brand-subtitle">Live Hub</span>
+        </div>
+
+      </a>
+
+      <nav class="nav-right">
+
+        <a class="nav-link" href="#streams">
+          Streams
+        </a>
+
+        <a class="nav-link" href="#tiktok">
+          Latest posts
+        </a>
+
+        <button
+          class="theme-toggle"
+          id="themeToggle"
+          type="button"
+          aria-label="Toggle light and dark mode"
+          aria-pressed="false"
+          title="Toggle theme"
         >
-        <span>The Lodge <span style="color: var(--green);">Live Hub</span></span>
-      </a>
 
-      <a
-        class="nav-link"
-        href="https://discord.gg/4DtjrRRU2F"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Join Discord ↗
-      </a>
-    </div>
-  </header>
+          <span class="pixel-emoji moon-icon">🌙</span>
 
-  <main>
-    <section class="container hero">
-      <span class="eyebrow">
-        <span class="eyebrow-dot"></span>
+          <span class="toggle-track">
+            <span class="toggle-knob"></span>
+          </span>
+
+          <span class="pixel-emoji sun-icon">☀️</span>
+
+        </button>
+
+      </nav>
+
+    </header>
+
+    <!-- =====================================
+         HERO
+    ====================================== -->
+
+    <section class="hero">
+
+      <div class="hero-label">
         The Lodge Community
-      </span>
+      </div>
 
-      <h1>Catch the stream.</h1>
+      <h1>
+        Your place<br>
+        to <span>watch.</span>
+      </h1>
 
       <p>
-        Watch mexy live on Twitch or Kick. Grab a seat, hang out,
-        and join the community.
+        The Lodge SMP, live and in action.
+        Catch the streams, follow the adventures,
+        and hang out with the community.
       </p>
+
+      <div class="hero-links">
+
+        <a href="#streams" class="button button-primary">
+          Watch live ↓
+        </a>
+
+        <a
+          href="https://twitch.tv/mexytv_"
+          class="button button-secondary"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Follow on Twitch ↗
+        </a>
+
+      </div>
+
     </section>
 
-    <section class="container channels" aria-label="Live channels">
+    <!-- =====================================
+         FEATURED STREAM
+    ====================================== -->
 
-      <!-- TWITCH -->
-      <article class="channel-card">
-        <div class="channel-header">
-          <div class="channel-identity">
-            <div class="platform-icon twitch-icon">T</div>
+    <section class="section" id="streams">
 
-            <div class="channel-name">
-              <h2>Twitch</h2>
-              <p>@mexytv_</p>
-            </div>
-          </div>
+      <div class="section-heading">
 
-          <div id="twitch-status" class="status checking">
-            <span class="status-dot"></span>
-            <span id="twitch-status-text">Checking...</span>
-          </div>
+        <div>
+          <span class="section-kicker">
+            01 / Broadcast
+          </span>
+
+          <h2>On the server.</h2>
+
+          <p>
+            Watch mexytv_ live from The Lodge SMP.
+          </p>
         </div>
 
-        <div class="player-wrap">
+      </div>
+
+      <div class="stream-card">
+
+        <div class="stream-header">
+
+          <div class="stream-profile">
+
+            <div class="avatar">M</div>
+
+            <div>
+              <h3>mexytv_</h3>
+              <p>Twitch · The Lodge SMP</p>
+            </div>
+
+          </div>
+
+          <div
+            class="status"
+            id="streamStatus"
+            aria-live="polite"
+          >
+
+            <span class="status-dot"></span>
+
+            <span id="statusText">
+              Checking status...
+            </span>
+
+          </div>
+
+        </div>
+
+        <div class="player">
+
           <iframe
-            src="https://player.twitch.tv/?channel=mexytv_&parent=live.lodgesmp.net&parent=lodgesmp.net&muted=true"
-            title="mexy Twitch livestream"
+            src="https://player.twitch.tv/?channel=mexytv_&parent=live.lodgesmp.net&parent=lodgesmp.net&parent=www.lodgesmp.net&muted=true"
             allowfullscreen
             scrolling="no"
-            allow="autoplay; fullscreen"
+            title="mexytv_ Twitch livestream"
           ></iframe>
+
         </div>
 
-        <div class="channel-footer">
-          <p>Watch on Twitch</p>
+        <div class="stream-footer">
+
+          <p id="streamMessage">
+            Check out the channel and join the chat.
+          </p>
 
           <a
-            class="watch-button"
+            class="button button-primary"
             href="https://twitch.tv/mexytv_"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Open Twitch ↗
+            Watch on Twitch ↗
           </a>
-        </div>
-      </article>
 
-      <!-- KICK -->
-      <article class="channel-card">
-        <div class="channel-header">
-          <div class="channel-identity">
-            <div class="platform-icon kick-icon">K</div>
-
-            <div class="channel-name">
-              <h2>Kick</h2>
-              <p>@m3xytv</p>
-            </div>
-          </div>
-
-          <a
-            class="status-link"
-            href="https://kick.com/m3xytv"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Check mexy on Kick"
-          >
-            <span class="kick-status-dot"></span>
-            Check Channel ↗
-          </a>
         </div>
 
-        <div class="player-wrap">
-          <iframe
-            src="https://player.kick.com/m3xytv"
-            title="mexy Kick livestream"
-            allowfullscreen
-            scrolling="no"
-            allow="autoplay; fullscreen; picture-in-picture"
-          ></iframe>
-        </div>
-
-        <div class="channel-footer">
-          <p>Check the channel for live status</p>
-
-          <a
-            class="watch-button"
-            href="https://kick.com/m3xytv"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Open Kick ↗
-          </a>
-        </div>
-      </article>
+      </div>
 
     </section>
 
-    <section class="container">
-      <div class="community">
-        <h2>Make yourself at home.</h2>
+    <!-- =====================================
+         FEATURED TIKTOK
+    ====================================== -->
 
-        <p>
-          The Lodge is more than a stream. Join the Discord to hang out,
-          meet the community, and get involved.
+    <section class="tiktok-section section" id="tiktok">
+
+      <div class="section-heading">
+
+        <div>
+          <span class="section-kicker">
+            02 / The Feed
+          </span>
+
+          <h2>What I make.</h2>
+        </div>
+
+        <p class="section-description">
+          Minecraft, clips, and more.
         </p>
 
+      </div>
+
+      <div class="tiktok-feature">
+
         <a
-          class="community-button"
-          href="https://discord.gg/4DtjrRRU2F"
+          class="tiktok-feature-image"
+          href="https://www.tiktok.com/@m3xytv"
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="Visit mexytv on TikTok"
         >
-          Join The Lodge Discord ↗
-        </a>
-      </div>
-    </section>
-  </main>
 
-  <footer>
-    <div class="container">
-      <p>
-        © <span id="year"></span> The Lodge ·
-        <a href="https://lodgesmp.net/">Visit the SMP website</a>
-      </p>
-    </div>
-  </footer>
+          <img
+            src="assets/mexytv-avatar.png"
+            alt="mexytv Minecraft character"
+          >
+
+          <span class="tiktok-image-overlay">
+
+            <span class="tiktok-play-icon">
+              ▶
+            </span>
+
+          </span>
+
+        </a>
+
+        <div class="tiktok-feature-info">
+
+          <span class="section-kicker">
+            Videos
+          </span>
+
+          <h3>
+            New ones land on TikTok first.
+          </h3>
+
+          <p>
+            The latest clips, moments, and adventures
+            from The Lodge SMP.
+          </p>
+
+          <a
+            class="button button-primary"
+            href="https://www.tiktok.com/@m3xytv"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Watch on TikTok ↗
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- =====================================
+         FOOTER
+    ====================================== -->
+
+    <footer class="footer">
+
+      <div class="footer-content">
+
+        <span>
+          © 2026 The Lodge SMP
+        </span>
+
+        <div class="footer-links">
+
+          <a href="https://lodgesmp.net">
+            Website
+          </a>
+
+          <a
+            href="https://twitch.tv/mexytv_"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Twitch
+          </a>
+
+          <a
+            href="https://www.tiktok.com/@m3xytv"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            TikTok
+          </a>
+
+        </div>
+
+      </div>
+
+    </footer>
+
+  </div>
+
+  <!-- =====================================
+       JAVASCRIPT
+  ====================================== -->
 
   <script>
-    document.getElementById("year").textContent =
-      new Date().getFullYear();
 
-    const twitchStatus = document.getElementById("twitch-status");
-    const twitchStatusText = document.getElementById("twitch-status-text");
+    /* =====================================
+       THEME TOGGLE
+    ====================================== */
 
-    async function checkTwitchStatus() {
+    const themeToggle =
+      document.getElementById("themeToggle");
+
+    function setTheme(theme) {
+
+      document.documentElement.setAttribute(
+        "data-theme",
+        theme
+      );
+
+      themeToggle.setAttribute(
+        "aria-pressed",
+        theme === "light" ? "true" : "false"
+      );
+
       try {
+        localStorage.setItem("lodge-theme", theme);
+      } catch (error) {
+        // Theme still works if storage is unavailable.
+      }
+
+    }
+
+    try {
+
+      const savedTheme =
+        localStorage.getItem("lodge-theme");
+
+      setTheme(
+        savedTheme === "light" ||
+        savedTheme === "dark"
+          ? savedTheme
+          : "dark"
+      );
+
+    } catch (error) {
+
+      setTheme("dark");
+
+    }
+
+    themeToggle.addEventListener("click", () => {
+
+      const current =
+        document.documentElement.getAttribute(
+          "data-theme"
+        );
+
+      setTheme(
+        current === "dark"
+          ? "light"
+          : "dark"
+      );
+
+    });
+
+
+    /* =====================================
+       TWITCH STATUS CHECKER
+    ====================================== */
+
+    const statusElement =
+      document.getElementById("streamStatus");
+
+    const statusText =
+      document.getElementById("statusText");
+
+    const streamMessage =
+      document.getElementById("streamMessage");
+
+    const CHANNEL = "mexytv_";
+
+    let statusRequestRunning = false;
+
+    async function checkStreamStatus() {
+
+      if (statusRequestRunning) return;
+
+      statusRequestRunning = true;
+
+      const controller = new AbortController();
+
+      const timeout = setTimeout(() => {
+        controller.abort();
+      }, 8000);
+
+      try {
+
         const response = await fetch(
-          "https://decapi.me/twitch/uptime/mexy_22",
-          { cache: "no-store" }
+          `https://decapi.me/twitch/uptime/${CHANNEL}`,
+          {
+            cache: "no-store",
+            signal: controller.signal
+          }
         );
 
         if (!response.ok) {
-          throw new Error("Twitch status request failed");
+          throw new Error("Status service unavailable");
         }
 
-        const result = (await response.text()).trim();
-        const normalized = result.toLowerCase();
+        const result =
+          (await response.text()).trim();
 
-        twitchStatus.classList.remove("live", "offline", "checking");
+        if (!result) {
+          throw new Error("Empty response");
+        }
 
-        if (
-          normalized.includes("offline") ||
-          normalized.includes("not live")
-        ) {
-          twitchStatus.classList.add("offline");
-          twitchStatusText.textContent = "Channel Offline";
-        } else if (
-          normalized.includes("error") ||
-          normalized.includes("invalid") ||
-          normalized.includes("unable") ||
-          normalized.includes("not found") ||
-          normalized.length === 0
-        ) {
-          twitchStatus.classList.add("offline");
-          twitchStatusText.textContent = "Check Channel";
+        const offline =
+          /not live|offline|could not find|error/i
+            .test(result);
+
+        if (offline) {
+
+          statusElement.classList.remove("live");
+
+          statusText.textContent = "Offline";
+
+          streamMessage.textContent =
+            "mexytv_ is currently offline. Check back soon!";
+
         } else {
-          twitchStatus.classList.add("live");
-          twitchStatusText.textContent = "LIVE NOW";
+
+          statusElement.classList.add("live");
+
+          statusText.textContent = "Live now";
+
+          streamMessage.textContent =
+            "mexytv_ is live! Join the stream and chat.";
+
         }
+
       } catch (error) {
-        twitchStatus.classList.remove("live", "checking");
-        twitchStatus.classList.add("offline");
-        twitchStatusText.textContent = "Check Channel";
+
+        statusElement.classList.remove("live");
+
+        statusText.textContent =
+          "Status unavailable";
+
+        streamMessage.textContent =
+          "Check Twitch directly for the latest stream status.";
+
+      } finally {
+
+        clearTimeout(timeout);
+
+        statusRequestRunning = false;
+
       }
+
     }
 
-    checkTwitchStatus();
-    setInterval(checkTwitchStatus, 60000);
+    checkStreamStatus();
+
+    setInterval(checkStreamStatus, 60000);
+
   </script>
+
 </body>
 </html>
